@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpecs = require('./config/swaggerConfig');
 const env = require('./config/env');
 const routes = require('./routes');
 const { publicLimiter } = require('./middleware/rateLimiter');
@@ -27,6 +29,9 @@ app.use(publicLimiter);
 
 // Routes
 app.use('/api', routes);
+
+// Swagger Docs
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 // 404 + error
 app.use(notFound);
